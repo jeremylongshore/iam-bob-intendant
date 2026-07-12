@@ -1,0 +1,20 @@
+name: ci
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  code:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: "1.2.23"
+      # Fetches the pinned agent-governance-plane kernel (public repo).
+      - run: bun install
+      - name: typecheck (strict)
+        run: bun run typecheck
+      - name: test (template packs against the pinned AGP kernel)
+        run: bun test

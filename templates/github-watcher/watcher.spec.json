@@ -1,0 +1,19 @@
+{
+  "id": "example-sdk-watcher",
+  "enabled": false,
+  "repo": "jeremylongshore/agent-governance-plane",
+  "watch": "releases",
+  "branch": null,
+  "issueRepo": "jeremylongshore/agent-governance-plane",
+  "issueTitlePrefix": "[watch]",
+  "pollLimit": 10,
+  "maxActionsPerRun": 3,
+  "maxConsecutiveFailures": 3,
+  "livenessTimeoutMs": 172800000,
+  "ghTokenSecret": null,
+  "humanCommit": {
+    "committedBy": "your-github-handle",
+    "committedAt": "2026-07-10T00:00:00.000Z",
+    "method": "manual"
+  }
+}

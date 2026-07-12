@@ -1,0 +1,12 @@
+# Bun configuration.
+#
+# Test files are excluded from the coverage denominator. The coverage GATE
+# itself lives in scripts/coverage-gate.sh (wired into CI), which enforces the
+# PROJECT-AGGREGATE floor — Bun's built-in `coverageThreshold` is per-file,
+# which is too blunt here: the deliberately gated real-environment paths
+# (src/sandbox/docker/runner.ts under AGP_DOCKER_E2E, the AGP_CLAUDE_LIVE spawn
+# in bun-claude-process.ts) can't run in CI and would fail any per-file floor.
+# See TEST_AUDIT.md (/audit-tests, 2026-06-03).
+
+[test]
+coverageSkipTestFiles = true

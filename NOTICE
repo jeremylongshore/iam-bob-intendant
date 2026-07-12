@@ -1,0 +1,10 @@
+Intendants
+Copyright 2026 Jeremy Longshore / Intent Solutions
+
+This product composes the agent-governance-plane (AGP) governance runtime,
+licensed under the Apache License, Version 2.0:
+  https://github.com/jeremylongshore/agent-governance-plane
+
+AGP provides the policy gate, Docker sandbox, Slack human-in-the-loop approval,
+and the signed, hash-chained audit journal. Intendants adds the trigger/watch
+operator surface, agent templates, and the installer.

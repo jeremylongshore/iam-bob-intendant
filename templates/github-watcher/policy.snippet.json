@@ -1,0 +1,18 @@
+{
+  "rules": [
+    {
+      "id": "watcher-gh-read",
+      "effect": "allow",
+      "tool": "gh_read",
+      "actor": "claude_process",
+      "reason": "watcher poll read — journaled and sandbox-executed, no side effects on GitHub"
+    },
+    {
+      "id": "watcher-gh-issue-create",
+      "effect": "require",
+      "tool": "gh_issue_create",
+      "actor": "claude_process",
+      "reason": "consequential action — a human approves every issue the watcher files"
+    }
+  ]
+}
