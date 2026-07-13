@@ -1,20 +1,99 @@
-name: ci
+name: CI
+
+# Bob the Intendant CI gates, run on every PR (mirror of scripts/pre-commit-gates.sh):
+#   - markdown structure (markdownlint)
+#   - banned-claim hygiene on public surfaces (sourced from MARKETING_CLAIMS.md)
+#   - PII/secret scrub gate (Public-Flip Gate #3, 109-AT-DECR §7)
+#   - code gates: typecheck + Biome lint + Bun tests behind the aggregate coverage
+#     floor + production dependency audit
+#   - vendored audit-harness: hash-pin verify + escape-scan of the PR diff
+#
+# Bob composes agent-governance-plane (AGP) as a pinned dependency; `bun install`
+# fetches it. Bun toolchain — no Node/npm.
+
 on:
   push:
     branches: [main]
   pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
 
 jobs:
-  code:
+  markdownlint:
+    name: Markdown lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
+      - uses: DavidAnson/markdownlint-cli2-action@v24
+        with:
+          globs: |
+            **/*.md
+            !node_modules/**
+            !**/CHANGELOG.md
+          config: .markdownlint.json
+
+  banned-claims:
+    name: Banned-claim scan (public surfaces)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Scan public surfaces for v0-banned claims
+        run: bash scripts/claim-scan.sh
+      - name: Scan PR commit subjects (the release-notes source)
+        if: github.event_name == 'pull_request'
+        run: bash scripts/claim-scan.sh --commits "origin/${{ github.base_ref }}...HEAD"
+
+  scrub:
+    # PII/secret scrub gate — Public-Flip Gate #3 (109-AT-DECR §7). Blocks known
+    # secret shapes + a denylist of real brain-data markers from public history.
+    name: Scrub scan (PII / secrets)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Scan tracked files for secrets / real data
+        run: bash scripts/scrub-scan.sh --all
+
+  code:
+    name: Code (typecheck + lint + tests + coverage)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: "1.2.23"
-      # Fetches the pinned agent-governance-plane kernel (public repo).
-      - run: bun install
-      - name: typecheck (strict)
+      - name: Install dependencies (fetches the pinned AGP kernel)
+        run: bun install --frozen-lockfile
+      - name: Typecheck
         run: bun run typecheck
-      - name: test (template packs against the pinned AGP kernel)
-        run: bun test
+      - name: Lint (Biome)
+        run: bunx biome lint src
+      - name: Tests + coverage gate
+        run: bash scripts/coverage-gate.sh
+      - name: Dependency audit (production)
+        run: bun audit --production
+
+  harness:
+    # Vendored @intentsolutions/audit-harness (.audit-harness/). HARD gate.
+    #   verify      — fails if a hash-pinned policy surface changed without a
+    #                 deliberate re-pin (MARKETING_CLAIMS.md, the gate scripts,
+    #                 .scrub-denylist, THREAT-MODEL.md — see .harness-hash-extra-patterns).
+    #   escape-scan — scans the PR diff for gate-evasion patterns.
+    name: Audit-harness (hash-pin + escape-scan)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: Verify hash-pinned policy surfaces
+        run: scripts/audit-harness verify
+      - name: Escape-scan the PR diff
+        # Exclude .audit-harness/ — the vendored scanner scripts contain the very
+        # pattern literals they hunt for (self-match false positives).
+        if: github.event_name == 'pull_request'
+        run: git diff "origin/${{ github.base_ref }}...HEAD" -- . ':(exclude).audit-harness/**' | scripts/audit-harness escape-scan -

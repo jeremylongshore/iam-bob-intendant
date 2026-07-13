@@ -1,0 +1,34 @@
+{
+  "strictness": 2,
+  "commentTypes": ["logic", "syntax", "style"],
+  "ignorePatterns": ".beads/**\nCHANGELOG.md\nversion.txt\nbun.lock\n**/*.lock",
+  "fixWithAI": true,
+  "context": { "repos": ["jeremylongshore/agent-governance-plane"] },
+  "instructions": "Bob the Intendant is the product front (Bun + TypeScript) that composes agent-governance-plane (AGP) as a pinned dependency and owns the agent/composition layer — the trigger-woken GitHub watcher, the `bob watch` CLI, and the agent templates. The governance runtime (policy gate, Docker sandbox, Slack HITL, signed hash-chained journal) lives in AGP, not here. Prioritize fail-closed correctness in the watcher/trigger code, no regression to the composition boundary, and the repo's claim-control discipline. The required CI gates (typecheck, test, claim-scan, coverage floor, audit-harness verify/escape-scan) are the deterministic gate — don't re-litigate nits those already catch; focus on logic, security, and boundary regressions.",
+  "rules": [
+    {
+      "id": "claim-control",
+      "rule": "Public surfaces (README.md, AGENTS.md, CLAUDE.md, CONTRIBUTING.md, SECURITY.md, SUPPORT.md, .github/**) may make exactly ONE security claim: 'signed audit log of every tool call'. Do NOT propose adding any stronger assurance wording (the claim-scan denylist: secure/hardened/tamper-proof/tamper-evident/unforgeable/guaranteed/reliable/trustworthy/verified/provably-correct/accurate/hallucination-free/unbiased/self-improving-as-a-guarantee); flag any change that introduces one.",
+      "scope": ["README.md", "AGENTS.md", "CLAUDE.md", "CONTRIBUTING.md", "SECURITY.md", "SUPPORT.md", ".github/**"],
+      "severity": "high"
+    },
+    {
+      "id": "bun-not-npm",
+      "rule": "This is a Bun + TypeScript repo, not Node/npm. Do NOT suggest npm/pnpm/yarn commands or Node-only APIs; use bun install / bun test / bun run.",
+      "scope": ["**/*.ts", "package.json"],
+      "severity": "medium"
+    },
+    {
+      "id": "leaf-no-fork-agp",
+      "rule": "Bob composes AGP as a pinned dependency and is a leaf on the AGP kernel. Do NOT fork, vendor, or re-implement AGP internals — import AGP (`agp/src/...`). The dependency edge points one way (Bob -> AGP), never the reverse. The six frozen AGP contracts + `trigger-source` belong to AGP; a change to any is a Bead + ADR in AGP, not here. Flag any code that copies AGP kernel logic into Bob or reaches around the imported AGP surface.",
+      "scope": ["src/**", "package.json"],
+      "severity": "high"
+    },
+    {
+      "id": "fail-closed-invariants",
+      "rule": "Governance boundaries are fail-closed: the watcher/trigger code drives AGP's daemon (runMediated) and must reject on ambiguity, never default-allow or fall back when a requested AGP subsystem is unavailable. Spec loading must refuse without a human commit. Flag any path that proceeds past a missing prerequisite or an unverifiable frame.",
+      "scope": ["src/**"],
+      "severity": "high"
+    }
+  ]
+}

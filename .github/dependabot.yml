@@ -1,0 +1,15 @@
+version: 2
+updates:
+  # Keep GitHub Actions up to date
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 10
+
+  # This is a Bun repo (bun.lock — not package-lock.json / yarn.lock / pnpm-lock).
+  # Dependabot has no "bun" ecosystem yet, so runtime/dev dependencies — including
+  # the pinned agent-governance-plane (AGP) kernel — are updated manually with
+  # `bun update` or by re-pinning `agp` in package.json (see CONTRIBUTING.md),
+  # not by Dependabot. Revisit this entry if/when Dependabot adds Bun support.

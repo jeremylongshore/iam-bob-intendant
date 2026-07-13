@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+# Bob the Intendant pre-commit hook. Runs the local gate mirror before a commit
+# lands. Activate on a fresh clone with: git config core.hooksPath .githooks
+# Emergency bypass: git commit --no-verify
+exec bash "$(git rev-parse --show-toplevel)/scripts/pre-commit-gates.sh"

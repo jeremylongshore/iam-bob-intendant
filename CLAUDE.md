@@ -31,16 +31,15 @@ on the kernel; the dependency edge points one way (Bob → AGP), never the rever
   runnable slice + bundled public-benchmark brain, PII/secret scrub gate, in-repo
   claim-control, signing/npm provisioned, trademark clearance + fallback,
   supersession recorded, honest THREAT-MODEL). Extraction: AGP `000-docs/059-AT-ADR`.
-- **Claim discipline (109 Q6, CISO veto).** Public surfaces may carry only the
-  allowed mechanism claims — "signed audit log of every tool call"; and (once the
-  primitives ship) "every judgment is cited to the brain context it used and
-  recorded on a signed, hash-chained journal" / "judgment quality is measured
-  against a human-labeled golden set." **Banned:** reliable/trustworthy/verified/
-  provably-correct/accurate/accuracy-guaranteed judgment, hallucination-free/-proof,
-  unbiased, self-improving-as-a-guarantee — plus all inherited AGP bans. A
-  `MARKETING_CLAIMS.md` + `claim-scan` gate lands before the first public commit
-  (repo-dress / Public-Flip Gate condition #4); register each claim in the same PR
-  that ships its enforcing primitive.
+- **Claim discipline (109 Q6, CISO veto).** Public surfaces carry only the allowed
+  mechanism claims registered in `MARKETING_CLAIMS.md` — at v0, "signed audit log of
+  every tool call" and the "governed judgment" category descriptor. The judgment-layer
+  assurance terms (plus all inherited AGP bans) are **banned**; the exact denylist
+  regex is the machine-readable block in `MARKETING_CLAIMS.md` (the single source of
+  truth), enforced by `scripts/claim-scan.sh` as a HARD gate. This file is itself
+  claim-scanned, so **describe the rule rather than quoting the banned words**; read
+  the registry before writing any security/judgment copy, and register each claim in
+  the same PR that ships its enforcing primitive.
 - **Zero real GSB / personal data on any public surface** — public-benchmark
   (HotpotQA/BEIR) or synthetic fixtures only; no real partner/client name without
   prior written consent (109 Q9 GC bind).

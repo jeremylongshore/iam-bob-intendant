@@ -1,0 +1,13 @@
+# Default code owners
+* @jeremylongshore
+
+# CI/CD workflows require owner approval
+/.github/workflows/ @jeremylongshore
+
+# Security-sensitive files
+SECURITY.md @jeremylongshore
+.github/dependabot.yml @jeremylongshore
+
+# Governance surfaces — claim-control registry and hash-pinned gate scripts
+MARKETING_CLAIMS.md @jeremylongshore
+/scripts/ @jeremylongshore

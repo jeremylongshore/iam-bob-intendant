@@ -1,0 +1,12 @@
+{
+  "files": [
+    {
+      "path": "CLAUDE.md",
+      "description": "Repo conventions, the AGP composition boundary (leaf-on-kernel, do not fork AGP), the Bun toolchain, the v0 claim-control rule, and the Public-Flip Gate — read for review context."
+    },
+    {
+      "path": "MARKETING_CLAIMS.md",
+      "description": "The claim-control registry and the banned assurance-term denylist (hash-pinned). Any public-surface change that adds a denylisted term should be flagged."
+    }
+  ]
+}
