@@ -26,11 +26,14 @@ belong to AGP; a change to any is a Bead + ADR **in AGP**, not here. Bob is a le
 on the kernel; the dependency edge points one way (Bob → AGP), never the reverse.
 
 - **Bun toolchain** — `bun install`, `bun run typecheck`, `bun test`. Not Node/npm.
-- **PRIVATE v0.** No public surface until the **Public-Flip Gate** is green
-  (intent-eval-lab `109-AT-DECR` §7: frozen cross-chain contract signed-in,
-  runnable slice + bundled public-benchmark brain, PII/secret scrub gate, in-repo
-  claim-control, signing/npm provisioned, trademark clearance + fallback,
-  supersession recorded, honest THREAT-MODEL). Extraction: AGP `000-docs/059-AT-ADR`.
+- **Public v0 — built in public.** The **Public-Flip Gate** closed 2026-07-12
+  (intent-eval-lab `109-AT-DECR` §7) and the repo went public with the governed
+  watcher slice; the *governed judgment* layer builds here in the open. Gate #2's
+  judgment demo brain (public-benchmark HotpotQA/BEIR) is Phase 1. **No npm publish
+  yet** — the package stays `private` until a first signed release. The safety
+  gates stay HARD: PII/secret scrub, in-repo claim-control, honest THREAT-MODEL,
+  supersession recorded. Extraction: AGP `000-docs/059-AT-ADR`; rename + flip:
+  `000-docs/001-AT-ADR`.
 - **Claim discipline (109 Q6, CISO veto).** Public surfaces carry only the allowed
   mechanism claims registered in `MARKETING_CLAIMS.md` — at v0, "signed audit log of
   every tool call" and the "governed judgment" category descriptor. The judgment-layer
