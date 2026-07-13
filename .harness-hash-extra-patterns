@@ -1,0 +1,25 @@
+# Bob the Intendant policy-enforcement surfaces, hash-pinned by
+# @intentsolutions/audit-harness. Any byte change to one of these requires a
+# deliberate re-pin (`scripts/audit-harness init`); `verify` in pre-commit + CI
+# blocks an un-re-pinned edit, so a gate, a claim rule, the scrub denylist, or the
+# threat model cannot be silently weakened in a PR.
+
+# The v0 marketing-claim registry (single source of truth for claim-scan).
+MARKETING_CLAIMS.md
+
+# Gate logic + thresholds — lowering a floor or removing a gate is an escape attempt.
+scripts/coverage-gate.sh
+scripts/claim-scan.sh
+scripts/scrub-scan.sh
+scripts/pre-commit-gates.sh
+
+# The scrub denylist (Public-Flip Gate #3) — a silent removal must be caught.
+.scrub-denylist
+
+# Public security surface (honest threat model, 109-AT-DECR §7 #8).
+THREAT-MODEL.md
+
+# Lint / test config.
+.markdownlint.json
+biome.json
+bunfig.toml

@@ -33,10 +33,10 @@ import type {
   SandboxSpec,
 } from "agp/src/contracts/sandbox-provider.ts";
 import type { TriggerEvent } from "agp/src/contracts/trigger-source.ts";
-import { WatcherSpec } from "agp/src/triggers/github-watcher/watcher-spec.ts";
-import { verifyStateLog, WatcherStateLog, readStateEntries } from "agp/src/triggers/github-watcher/state-log.ts";
-import { OneShotPollSource } from "agp/src/triggers/github-watcher/one-shot-poll-source.ts";
-import { GithubWatcherIntendant } from "agp/src/triggers/github-watcher/watcher-intendant.ts";
+import { WatcherSpec } from "../../../src/triggers/github-watcher/watcher-spec.ts";
+import { verifyStateLog, WatcherStateLog, readStateEntries } from "../../../src/triggers/github-watcher/state-log.ts";
+import { OneShotPollSource } from "../../../src/triggers/github-watcher/one-shot-poll-source.ts";
+import { GithubWatcherIntendant } from "../../../src/triggers/github-watcher/watcher-intendant.ts";
 
 const SPEC = WatcherSpec.parse({
   id: "sdk-watcher",

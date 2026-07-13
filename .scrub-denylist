@@ -1,0 +1,13 @@
+# .scrub-denylist — real brain-data markers + real names the scrub gate blocks
+# from public git history (Public-Flip Gate #3, 109-AT-DECR §7). One term per
+# line; '#' comments. Matched case-insensitively as a fixed substring across all
+# scanned files.
+#
+# Target REAL data markers (brain paths, nugget stores, real person/partner/client
+# names) — NOT the project name "Governed Second Brain", which legitimately appears
+# in planning docs. The demo brain must be public-benchmark (HotpotQA/BEIR) or
+# synthetic fixtures only. Jeremy adds real partner/client/person names here as the
+# judgment layer grows.
+.teamkb/
+TEAMKB_BASE_PATH
+/home/jeremy/.teamkb
