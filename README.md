@@ -1,7 +1,9 @@
 # Bob the Intendant — governed judgment for the agent you already run
 
-> **PRIVATE v0.** No public surface until the **Public-Flip Gate** is green
-> (intent-eval-lab `109-AT-DECR` §7). This repo is the product front for the
+> **Public v0 — built in public.** The Public-Flip Gate closed (intent-eval-lab
+> `109-AT-DECR` §7) and this repo went public with the governed watcher slice + the
+> category thesis; the *governed judgment* layer builds here in the open. No npm
+> publish yet. This repo is the product front for the
 > [`agent-governance-plane`](https://github.com/jeremylongshore/agent-governance-plane)
 > (AGP) runtime — it composes AGP as a pinned dependency and owns the
 > agent/composition layer.
