@@ -47,8 +47,17 @@ export const WatcherSpec = z
     repo: RepoRef,
     /** What to watch: published releases, or commits on a branch. */
     watch: z.enum(["releases", "commits"]),
-    /** Branch for `watch: "commits"`; null for releases. */
-    branch: z.string().min(1).nullable().default(null),
+    /**
+     * Branch for `watch: "commits"`; null for releases. Restricted to git-ref
+     * characters — it is interpolated into the proxy-executed `gh api` command
+     * string, so validating the charset at the boundary keeps a malformed spec
+     * from injecting shell metacharacters (fail-closed; the spec refuses to load).
+     */
+    branch: z
+      .string()
+      .regex(/^[A-Za-z0-9._/-]+$/, "must be a valid git ref (no shell metacharacters)")
+      .nullable()
+      .default(null),
     /**
      * What the agent DOES with a new item — a human-committed behavior choice:
      * - `issue`  (default): file a GitHub issue, gated by a `require` verdict +
@@ -107,8 +116,15 @@ export const WatcherSpec = z
      * commands are prefixed `env GH_TOKEN={{secret:NAME}} ` and the placeholder
      * resolves ONLY in the post-gate argv (034-AT-ARCH) — the token never enters
      * a GatewayMessage or the journal. Null = ambient auth (host/image `gh`).
+     * Restricted to environment-variable-name characters: it is interpolated into
+     * the `env GH_TOKEN={{secret:NAME}}` command prefix, so the charset is
+     * validated at the boundary (fail-closed) to prevent shell injection.
      */
-    ghTokenSecret: z.string().min(1).nullable().default(null),
+    ghTokenSecret: z
+      .string()
+      .regex(/^[A-Za-z_][A-Za-z0-9_]*$/, "must be a valid environment variable name")
+      .nullable()
+      .default(null),
     /** The human commit gate — REQUIRED; a draft without it refuses to load. */
     humanCommit: HumanCommit,
   })

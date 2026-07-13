@@ -287,7 +287,16 @@ export async function watchCommand(
           payload: { reason: r.reason, nonce: r.nonce, decidedBy: r.userId ?? null },
         }),
     });
-    await receiver.start();
+    // Fail-closed: if the Socket Mode connection fails to establish, stop the
+    // receiver (no leaked WebSocket) and refuse rather than run a prompt nothing
+    // can answer.
+    try {
+      await receiver.start();
+    } catch (err) {
+      await receiver.stop().catch(() => {});
+      out(`bob watch run: Slack receiver failed to start: ${(err as Error).message} (fail-closed)`);
+      return 1;
+    }
     const slackSecrets = knownSecrets([creds.botToken, creds.appToken]);
     channel = new SlackChannel({
       transport: new FetchSlackTransport(creds.botToken),
