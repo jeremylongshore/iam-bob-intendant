@@ -1,21 +1,21 @@
 {
-  "name": "@intentsolutions/intendants",
+  "name": "@intentsolutions/bob-the-intendant",
   "version": "0.0.0",
   "private": true,
-  "description": "Governed background agents \u2014 the product front for the agent-governance-plane runtime. PRIVATE v0.",
+  "description": "Bob the Intendant \u2014 governed judgment for the agent you already run. Composes the agent-governance-plane (AGP) runtime as a pinned dependency and owns the agent/composition layer.",
   "type": "module",
   "license": "Apache-2.0",
   "author": "Jeremy Longshore",
   "bin": {
-    "intendants": "./src/index.ts"
+    "bob": "./src/index.ts"
   },
   "scripts": {
-    "intendants": "bun run src/index.ts",
+    "bob": "bun run src/index.ts",
     "typecheck": "tsc --noEmit",
     "test": "bun test"
   },
   "dependencies": {
-    "agp": "github:jeremylongshore/agent-governance-plane#v0.1.98",
+    "agp": "github:jeremylongshore/agent-governance-plane#69aabb2ad28d25c0236baf7407d8fd1bd6245651",
     "zod": "^3.25.76"
   },
   "devDependencies": {

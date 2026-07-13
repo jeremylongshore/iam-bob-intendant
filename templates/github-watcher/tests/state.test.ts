@@ -7,9 +7,9 @@ import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import type { ToolCallRequest } from "agp/src/contracts/gateway-message.ts";
-import { WatcherSpec } from "agp/src/triggers/github-watcher/watcher-spec.ts";
-import { verifyStateLog, WatcherStateLog } from "agp/src/triggers/github-watcher/state-log.ts";
-import { GithubWatcherIntendant } from "agp/src/triggers/github-watcher/watcher-intendant.ts";
+import { WatcherSpec } from "../../../src/triggers/github-watcher/watcher-spec.ts";
+import { verifyStateLog, WatcherStateLog } from "../../../src/triggers/github-watcher/state-log.ts";
+import { GithubWatcherIntendant } from "../../../src/triggers/github-watcher/watcher-intendant.ts";
 
 const SPEC = WatcherSpec.parse({
   id: "sdk-watcher",

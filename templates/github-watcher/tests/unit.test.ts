@@ -3,7 +3,7 @@
 
 import { test, expect } from "bun:test";
 import { join } from "node:path";
-import { loadWatcherSpec } from "agp/src/triggers/github-watcher/watcher-spec.ts";
+import { loadWatcherSpec } from "../../../src/triggers/github-watcher/watcher-spec.ts";
 import { PolicyFile } from "agp/src/policy/engine.ts";
 
 const HERE = join(import.meta.dir, "..");

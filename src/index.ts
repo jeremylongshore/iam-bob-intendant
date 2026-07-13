@@ -1,26 +1,27 @@
 #!/usr/bin/env bun
-// `intendants` — the operator CLI for governed background agents.
+// `bob` — the operator CLI for Bob the Intendant (governed background agents).
 //
-// Intendants is the PRODUCT front for the governance runtime shipped by
-// agent-governance-plane (AGP): it composes AGP as a pinned git dependency and
-// owns the operator surface — templates, install, and the `watch` loop that
-// wakes a governed agent on a trigger. The governance itself (policy gate →
-// Slack HITL → Docker sandbox → signed audit log of every tool call) lives in
-// AGP; this CLI dispatches to it, so the "model proposes; the deterministic
-// system decides and records" boundary is exactly AGP's, unchanged.
+// Bob the Intendant is the PRODUCT front for the governance runtime shipped by
+// agent-governance-plane (AGP): it composes AGP as a pinned dependency and OWNS
+// the agent/composition layer — the trigger-woken GitHub watcher, its `watch`
+// operator loop, install, and the per-agent template test packs. The governance
+// itself (policy gate → Slack HITL → Docker sandbox → signed audit log of every
+// tool call) lives in AGP; this CLI dispatches init/keygen/doctor/verify to AGP
+// and drives the local watcher through AGP's daemon, so the "model proposes; the
+// deterministic system decides and records" boundary is exactly AGP's, unchanged.
 //
-// Extraction plan + architecture: AGP 000-docs/057-AT-ADR (intent-os 030-AT-DECR).
-// Private v0 — no public surface until Jeremy opens that door.
+// Extraction: AGP 000-docs/059-AT-ADR (executes the 057-AT-ADR plan; renamed +
+// governed by intent-eval-lab 109-AT-DECR). Bob owns src/triggers/ + src/cli/commands/watch.ts.
 
 import { initCommand } from "agp/src/cli/commands/init.ts";
 import { keygenCommand } from "agp/src/cli/commands/keygen.ts";
 import { doctorCommand } from "agp/src/cli/commands/doctor.ts";
 import { verifyCommand } from "agp/src/cli/commands/verify.ts";
-import { watchCommand } from "agp/src/cli/commands/watch.ts";
+import { watchCommand } from "./cli/commands/watch.ts";
 
-const USAGE = `intendants — governed background agents
+const USAGE = `bob — Bob the Intendant · governed judgment for the agent you already run
 
-Usage: intendants <command> [options]
+Usage: bob <command> [options]
 
 Commands:
   init        Scaffold the config home (~/.agp): config + policy skeletons + signing dir
@@ -71,7 +72,7 @@ export async function main(argv: string[]): Promise<number> {
       console.log(USAGE);
       return 1;
     default:
-      console.error(`intendants: unknown command '${cmd}'\n`);
+      console.error(`bob: unknown command '${cmd}'\n`);
       console.error(USAGE);
       return 1;
   }

@@ -1,24 +1,24 @@
 #!/usr/bin/env bash
-# One-command install for the `intendants` CLI. Idempotent + fail-closed: it never
+# One-command install for the `bob` CLI. Idempotent + fail-closed: it never
 # clobbers an existing signing key or config, and it refuses rather than half-
-# installs on a missing prerequisite. Intendants composes agent-governance-plane
+# installs on a missing prerequisite. Bob the Intendant composes agent-governance-plane
 # (AGP) as a pinned dependency — `bun install` fetches it automatically.
 #
-#   curl -fsSL https://raw.githubusercontent.com/jeremylongshore/intendants/main/scripts/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/jeremylongshore/bob-the-intendant/main/scripts/install.sh | bash
 #
 # or, from a clone:   bash scripts/install.sh
 
 set -euo pipefail
 
-REPO_URL="https://github.com/jeremylongshore/intendants.git"
-CLONE_DIR="${INTENDANTS_INSTALL_DIR:-$HOME/000-projects/intendants}"
+REPO_URL="https://github.com/jeremylongshore/bob-the-intendant.git"
+CLONE_DIR="${BOB_INSTALL_DIR:-$HOME/000-projects/bob-the-intendant}"
 BOLD=$'\033[1m'; DIM=$'\033[2m'; GREEN=$'\033[32m'; YEL=$'\033[33m'; RED=$'\033[31m'; RST=$'\033[0m'
 say()  { printf '%s\n' "$*"; }
 ok()   { printf '%s✓%s %s\n' "$GREEN" "$RST" "$*"; }
 warn() { printf '%s!%s %s\n' "$YEL" "$RST" "$*"; }
 die()  { printf '%s✗ %s%s\n' "$RED" "$*" "$RST" >&2; exit 1; }
 
-say "${BOLD}Intendants — installer${RST}"
+say "${BOLD}Bob the Intendant — installer${RST}"
 
 # 1. Prerequisites. Bun required; docker + gh recommended (needed for a LIVE run).
 command -v bun >/dev/null 2>&1 || die "bun is required — https://bun.sh  (curl -fsSL https://bun.sh/install | bash)"
@@ -46,11 +46,11 @@ bun install >/dev/null || die "bun install failed (see the error above)"; ok "de
 
 # 4. Operator config + signing key — run ONLY when absent, DIE on real failure.
 if [ ! -f "$HOME/.agp/policy.json" ]; then
-  bun run src/index.ts init >/dev/null || die "intendants init failed (see the error above)"
+  bun run src/index.ts init >/dev/null || die "bob init failed (see the error above)"
 fi
 [ -f "$HOME/.agp/policy.json" ] && ok "config home ~/.agp ready" || warn "run: bun run src/index.ts init"
 if [ ! -f "$HOME/.agp/signing/journal-ed25519.key" ]; then
-  bun run src/index.ts keygen >/dev/null || die "intendants keygen failed (see the error above)"
+  bun run src/index.ts keygen >/dev/null || die "bob keygen failed (see the error above)"
 fi
 [ -f "$HOME/.agp/signing/journal-ed25519.key" ] && ok "journal signing key present" || warn "run: bun run src/index.ts keygen"
 
