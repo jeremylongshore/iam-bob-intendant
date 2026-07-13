@@ -1,6 +1,6 @@
 {
   "name": "@intentsolutions/bob-the-intendant",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "description": "Bob the Intendant — governed judgment for the agent you already run. Composes the agent-governance-plane (AGP) runtime as a pinned dependency and owns the agent/composition layer.",
   "type": "module",

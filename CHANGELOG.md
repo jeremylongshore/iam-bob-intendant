@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.4] - 2026-07-13
+
+### Added
+
+- feat(judge): ship the Layer-1 governed-judgment loop as `bob judge` (Phase 3, 108 §12) (#10) (8eae903)
+
 ## [0.0.3] - 2026-07-13
 
 ### Changed
