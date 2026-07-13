@@ -15,7 +15,7 @@
     "test": "bun test"
   },
   "dependencies": {
-    "agp": "github:jeremylongshore/agent-governance-plane#69aabb2ad28d25c0236baf7407d8fd1bd6245651",
+    "agp": "github:jeremylongshore/agent-governance-plane#v0.1.100",
     "zod": "^3.25.76"
   },
   "devDependencies": {
