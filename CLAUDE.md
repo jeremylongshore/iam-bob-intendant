@@ -13,6 +13,12 @@ agent/composition layer**:
 
 - `src/triggers/github-watcher/` — the trigger-woken GitHub watcher agent.
 - `src/cli/commands/watch.ts` — the `bob watch run/status/enable` operator surface.
+- `src/triggers/judgment/` + `src/cli/commands/judge.ts` — the Layer-1 governed-judgment
+  loop (`bob judge`): retrieve over a seeded brain → judge (grounded & worth-a-human,
+  cited to `qmd://`) → `runMediated` (gate → HITL → signed journal + cross-chain pointer)
+  → composed metrics (deterministic vs panel, separate) → deliver; state-log dedup keeps
+  a repeat event from re-alerting. Governance is pure AGP/Bob; retrieval + eval cross the
+  boundary via an injectable `JudgmentSource` (tests use fixtures, hermetic). 108 §12.
 - `templates/<name>/` — per-agent template test packs.
 - `scripts/install.sh` — the one-command installer.
 
