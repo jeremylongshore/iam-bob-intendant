@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.3] - 2026-07-13
+
+### Changed
+
+- docs: update the PRIVATE-v0 notices to build-in-public now that the repo is public (#9) (ade8810)
+
 ## [0.0.2] - 2026-07-13
 
 ### Changed
