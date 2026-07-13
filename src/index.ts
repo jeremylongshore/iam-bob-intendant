@@ -17,7 +17,10 @@ import { initCommand } from "agp/src/cli/commands/init.ts";
 import { keygenCommand } from "agp/src/cli/commands/keygen.ts";
 import { doctorCommand } from "agp/src/cli/commands/doctor.ts";
 import { verifyCommand } from "agp/src/cli/commands/verify.ts";
+import { join } from "node:path";
 import { watchCommand } from "./cli/commands/watch.ts";
+import { judgeCommand } from "./cli/commands/judge.ts";
+import { fileJudgmentSource } from "./triggers/judgment/file-source.ts";
 
 const USAGE = `bob — Bob the Intendant · governed judgment for the agent you already run
 
@@ -32,6 +35,10 @@ Commands:
               run    --spec <path>   one tick: read (gated) → judge → act (issue: require+HITL | notify: webhook)
               status --spec <path>   liveness dead-man's-switch + knowledge-chain verify (exit 1 = stale/broken)
               enable --spec <path>   human re-commit after a restart-intensity refusal
+  judge       Run the governed-judgment loop over a seeded brain: retrieve (qmd://) →
+              judge (grounded & worth-a-human, cited) → mediate (gate → HITL → signed
+              journal + cross-chain pointer) → composed metrics → deliver; dedup keeps
+              a repeat event from re-alerting. Sources: AGP_JUDGE_RETRIEVAL / _REPORT / _JRIG / _LIMIT.
   verify      Verify the signed audit journal (hash chain + signatures), offline
   help        Show this help
 
@@ -61,6 +68,18 @@ export async function main(argv: string[]): Promise<number> {
     }
     case "watch":
       return watchCommand(argv.slice(1), process.env, console.log);
+    case "judge": {
+      const home = process.env.HOME ?? "";
+      const bench = join(home, ".teamkb-bench-demo", "phase2");
+      const source = fileJudgmentSource({
+        retrievalPath: process.env.AGP_JUDGE_RETRIEVAL ?? join(bench, "retrieval.json"),
+        reportPath: process.env.AGP_JUDGE_REPORT ?? join(bench, "report.json"),
+        jrigPath: process.env.AGP_JUDGE_JRIG,
+        limit: Number(process.env.AGP_JUDGE_LIMIT ?? "5"),
+      });
+      const res = await judgeCommand(process.env, console.log, { source });
+      return res.code;
+    }
     case "verify":
       return verifyCommand(argv.slice(1));
     case "help":
