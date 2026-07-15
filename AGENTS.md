@@ -1,4 +1,4 @@
-# AGENTS.md — AI Agent Operations for bob-the-intendant
+# AGENTS.md — AI Agent Operations for iam-bob-intendant
 
 ## Bob CLI (operator surface)
 
@@ -106,8 +106,9 @@ bd doctor                             # Health check
   agent/composition layer.
 - **Claim discipline:** public surfaces may make exactly ONE security claim —
   "signed audit log of every tool call." Do NOT add any stronger assurance wording
-  (the `scripts/claim-scan.sh` denylist). Bob is **PRIVATE v0** — no public
-  surface until the Public-Flip Gate is green.
+  (the `scripts/claim-scan.sh` denylist). Bob is **public v0** — the Public-Flip
+  Gate closed on 2026-07-12, while the package remains private until its first
+  signed release.
 
 ## Creating Tasks
 

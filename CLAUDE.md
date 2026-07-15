@@ -1,10 +1,12 @@
 # CLAUDE.md
 
-Guidance for Claude Code working in the **bob-the-intendant** repo.
+Guidance for Claude Code working in the **iam-bob-intendant** repo.
 
 ## What this is
 
-**Bob the Intendant** is the product front for governed background agents — and
+**iam-bob-intendant** is the specialized, headless watcher/application in the IAM
+Bob family, not the universal IAM runtime or model-driven agent harness. It is
+the product front for governed background agents — and
 the home for the *governed judgment* layer (in progress, intent-eval-lab
 `108-AT-ARCH` / `109-AT-DECR`). It composes
 [`agent-governance-plane`](https://github.com/jeremylongshore/agent-governance-plane)

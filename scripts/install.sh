@@ -4,14 +4,14 @@
 # installs on a missing prerequisite. Bob the Intendant composes agent-governance-plane
 # (AGP) as a pinned dependency — `bun install` fetches it automatically.
 #
-#   curl -fsSL https://raw.githubusercontent.com/jeremylongshore/bob-the-intendant/main/scripts/install.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/jeremylongshore/iam-bob-intendant/main/scripts/install.sh | bash
 #
 # or, from a clone:   bash scripts/install.sh
 
 set -euo pipefail
 
-REPO_URL="https://github.com/jeremylongshore/bob-the-intendant.git"
-CLONE_DIR="${BOB_INSTALL_DIR:-$HOME/000-projects/bob-the-intendant}"
+REPO_URL="https://github.com/jeremylongshore/iam-bob-intendant.git"
+CLONE_DIR="${BOB_INSTALL_DIR:-$HOME/000-projects/iam-bob-intendant}"
 BOLD=$'\033[1m'; DIM=$'\033[2m'; GREEN=$'\033[32m'; YEL=$'\033[33m'; RED=$'\033[31m'; RST=$'\033[0m'
 say()  { printf '%s\n' "$*"; }
 ok()   { printf '%s✓%s %s\n' "$GREEN" "$RST" "$*"; }
