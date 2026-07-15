@@ -1,12 +1,14 @@
-# iam-bob-intendant — governed operational worker (Intent Agent Model)
+# iam-bob-intendant — headless governed watcher and operational-agent application
 
 > **Intent Agent Model (IAM)** — *not* Identity and Access Management.  
-> Bob is the **reference implementation family** for IAM. These repos are different **runtimes** of the same model, not separate products.
+> IAM Bob is a family of Intent Agent Model implementations and applications.
+> This repository is the specialized watcher/application member, not the universal
+> IAM runtime or model-driven agent harness.
 >
 > | Repo | Runtime | Status |
 > |------|---------|--------|
-> | [`iam-bob-adk`](https://github.com/jeremylongshore/iam-bob-adk) | Google ADK | Historical V1 |
-> | [`iam-bob-pydantic`](https://github.com/jeremylongshore/iam-bob-pydantic) | Pydantic AI + LiteLLM (BYOK, MCP) | Historical V2 |
+> | [`iam-bob-adk`](https://github.com/jeremylongshore/iam-bob-adk) | Google ADK + Vertex AI Agent Engine | Preserved reference implementation |
+> | [`iam-bob-pydantic`](https://github.com/jeremylongshore/iam-bob-pydantic) | Pydantic AI + LiteLLM (BYOK, MCP) | Scaffold in progress |
 > | [`iam-bob-langgraph`](https://github.com/jeremylongshore/iam-bob-langgraph) | LangGraph | Reserved (not built) |
 > | [`iam-bob-intendant`](https://github.com/jeremylongshore/iam-bob-intendant) | Operational worker (AGP-composed) | Live automation |
 >
@@ -24,7 +26,7 @@
 > (AGP) runtime — it composes AGP as a pinned dependency and owns the
 > agent/composition layer.
 
-Bob is a background agent that runs on a trigger, keeps state so it isn't noisy,
+Bob is a headless background watcher/application that runs on a trigger, keeps state so it isn't noisy,
 and — crucially — **only acts through a policy gate, with human approval on
 anything risky, and a signed audit log of every tool call.** Local-first,
 one-command install.

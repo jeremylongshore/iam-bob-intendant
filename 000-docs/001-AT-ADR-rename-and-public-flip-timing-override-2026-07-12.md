@@ -12,6 +12,14 @@ composes: AGP 000-docs/059-AT-ADR (the extraction) · 057-AT-ADR (the extraction
 
 # ADR — Rename Intendants → Bob the Intendant + public-flip timing override
 
+**Naming amendment (2026-07-15).** The canonical repository is now
+`jeremylongshore/iam-bob-intendant`, and the current npm package metadata uses
+`@intentsolutions/iam-bob-intendant`. The `bob` CLI, AGP adapter vocabulary,
+runtime paths, signing identity, and historical evidence remain unchanged.
+References below to `bob-the-intendant` and
+`@intentsolutions/bob-the-intendant` are preserved as the contemporaneous
+record of the 2026-07-12 decision.
+
 > **Status: Accepted (2026-07-12).** This is the Bob-side record of two decisions
 > ratified in intent-eval-lab `109-AT-DECR`: (1) the product rename, and (2)
 > bringing the public-flip *timing* forward. It is the "record equals artifact"

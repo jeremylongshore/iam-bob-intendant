@@ -23,7 +23,7 @@ contracts or governance kernel are a Bead + ADR **in AGP**, not in this repo.
 ```bash
 # Clone the repository
 git clone https://github.com/jeremylongshore/iam-bob-intendant.git
-cd bob-the-intendant
+cd iam-bob-intendant
 
 # Install dependencies (fetches the pinned AGP kernel)
 bun install

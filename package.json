@@ -2,7 +2,7 @@
   "name": "@intentsolutions/iam-bob-intendant",
   "version": "0.0.6",
   "private": true,
-  "description": "Intent Agent Model (IAM) — Bob intendant operational worker. Composes AGP as a pinned dependency. IAM = Intent Agent Model, not Identity and Access Management.",
+  "description": "Headless governed watcher and operational-agent application in the Intent Agent Model family, mediated by AGP.",
   "type": "module",
   "license": "Apache-2.0",
   "author": "Jeremy Longshore",

@@ -362,7 +362,7 @@ jobs:
         run: |
           NEXT="${{ steps.version.outputs.next }}"
           gh release create "$NEXT" \
-            --title "bob-the-intendant $NEXT" \
+            --title "iam-bob-intendant $NEXT" \
             --generate-notes \
             --latest
 
