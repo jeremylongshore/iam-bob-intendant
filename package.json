@@ -1,6 +1,6 @@
 {
   "name": "@intentsolutions/iam-bob-intendant",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "private": true,
   "description": "Headless governed watcher and operational-agent application in the Intent Agent Model family, mediated by AGP.",
   "type": "module",
