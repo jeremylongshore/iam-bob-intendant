@@ -13,6 +13,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - docs(test-audit): add TEST_AUDIT.md from the /audit-tests 7-layer sweep (#11) (b3a3e05)
 
+||||||| parent of 4c27df9 (docs: Intent Agent Model (IAM) naming — Bob intendant family)
+### Changed
+- **Repository renamed** into the Intent Agent Model (IAM) Bob family taxonomy on GitHub.
+  IAM = Intent Agent Model (not Identity and Access Management). GitHub redirects from the former name remain active.
 ## [0.0.4] - 2026-07-13
 
 ### Added

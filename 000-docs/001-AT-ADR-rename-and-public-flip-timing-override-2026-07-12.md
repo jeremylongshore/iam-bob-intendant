@@ -44,7 +44,7 @@ Jeremy's course-corrections, ratified by the 7-seat ISEDC council in
 
 ### 1. Rename (wordmark-only)
 
-- Product/repo: **`jeremylongshore/bob-the-intendant`**; npm scope
+- Product/repo: **`jeremylongshore/iam-bob-intendant`**; npm scope
   `@intentsolutions/bob-the-intendant`; CLI `bob`.
 - **Unchanged:** the frozen AGP `intendant-adapter` / `intendant-manifest`
   contracts, the `src/intendants/` layer, and the `~/.agp/intendants/` identity

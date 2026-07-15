@@ -1,4 +1,20 @@
-# Bob the Intendant — governed judgment for the agent you already run
+# iam-bob-intendant — governed operational worker (Intent Agent Model)
+
+> **Intent Agent Model (IAM)** — *not* Identity and Access Management.  
+> Bob is the **reference implementation family** for IAM. These repos are different **runtimes** of the same model, not separate products.
+>
+> | Repo | Runtime | Status |
+> |------|---------|--------|
+> | [`iam-bob-adk`](https://github.com/jeremylongshore/iam-bob-adk) | Google ADK | Historical V1 |
+> | [`iam-bob-pydantic`](https://github.com/jeremylongshore/iam-bob-pydantic) | Pydantic AI + LiteLLM (BYOK, MCP) | Historical V2 |
+> | [`iam-bob-langgraph`](https://github.com/jeremylongshore/iam-bob-langgraph) | LangGraph | Reserved (not built) |
+> | [`iam-bob-intendant`](https://github.com/jeremylongshore/iam-bob-intendant) | Operational worker (AGP-composed) | Live automation |
+>
+> **Formerly** `jeremylongshore/bob-the-intendant` (GitHub redirects).
+
+---
+
+## Bob the Intendant — governed judgment for the agent you already run
 
 > **Public v0 — built in public.** The Public-Flip Gate closed (intent-eval-lab
 > `109-AT-DECR` §7) and this repo went public with the governed watcher slice + the
@@ -37,7 +53,7 @@ the judgment layer is labeled experimental until it ships.
 ## Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/jeremylongshore/bob-the-intendant/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/jeremylongshore/iam-bob-intendant/main/scripts/install.sh | bash
 ```
 
 (While private, clone + `bun install` instead — see `scripts/install.sh`.)

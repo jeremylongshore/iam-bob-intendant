@@ -1,8 +1,8 @@
 {
-  "name": "@intentsolutions/bob-the-intendant",
-  "version": "0.0.5",
+  "name": "@intentsolutions/iam-bob-intendant",
+  "version": "0.0.4",
   "private": true,
-  "description": "Bob the Intendant — governed judgment for the agent you already run. Composes the agent-governance-plane (AGP) runtime as a pinned dependency and owns the agent/composition layer.",
+  "description": "Intent Agent Model (IAM) \u2014 Bob intendant operational worker. Composes AGP as a pinned dependency. IAM = Intent Agent Model, not Identity and Access Management.",
   "type": "module",
   "license": "Apache-2.0",
   "author": "Jeremy Longshore",

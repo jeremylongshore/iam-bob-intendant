@@ -22,7 +22,7 @@ contracts or governance kernel are a Bead + ADR **in AGP**, not in this repo.
 
 ```bash
 # Clone the repository
-git clone https://github.com/jeremylongshore/bob-the-intendant.git
+git clone https://github.com/jeremylongshore/iam-bob-intendant.git
 cd bob-the-intendant
 
 # Install dependencies (fetches the pinned AGP kernel)
@@ -37,14 +37,14 @@ bun test
 
 ### Reporting Bugs
 
-1. Search [existing issues](https://github.com/jeremylongshore/bob-the-intendant/issues) first
-2. Open a [bug report](https://github.com/jeremylongshore/bob-the-intendant/issues/new?template=bug_report.md)
+1. Search [existing issues](https://github.com/jeremylongshore/iam-bob-intendant/issues) first
+2. Open a [bug report](https://github.com/jeremylongshore/iam-bob-intendant/issues/new?template=bug_report.md)
 3. Include reproduction steps, expected vs actual behavior, and environment details (paste `bob doctor` output)
 
 ### Suggesting Enhancements
 
-1. Check [existing feature requests](https://github.com/jeremylongshore/bob-the-intendant/issues?q=label%3Aenhancement)
-2. Open a [feature request](https://github.com/jeremylongshore/bob-the-intendant/issues/new?template=feature_request.md)
+1. Check [existing feature requests](https://github.com/jeremylongshore/iam-bob-intendant/issues?q=label%3Aenhancement)
+2. Open a [feature request](https://github.com/jeremylongshore/iam-bob-intendant/issues/new?template=feature_request.md)
 
 ### Pull Requests
 
@@ -128,8 +128,8 @@ in the commit body.
 
 ## Community
 
-- **Questions**: [GitHub Discussions](https://github.com/jeremylongshore/bob-the-intendant/discussions)
-- **Bugs**: [Issue Tracker](https://github.com/jeremylongshore/bob-the-intendant/issues)
+- **Questions**: [GitHub Discussions](https://github.com/jeremylongshore/iam-bob-intendant/discussions)
+- **Bugs**: [Issue Tracker](https://github.com/jeremylongshore/iam-bob-intendant/issues)
 - **Email**: jeremy@intentsolutions.io
 
 ## License
