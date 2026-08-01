@@ -57,7 +57,7 @@ test("humanCommit.method only accepts 'manual' at v0", () => {
   ).toThrow();
 });
 
-test("deliver defaults to 'issue'; 'notify' requires notifyWebhookEnv", () => {
+test("deliver defaults to 'issue'; webhook notify requires notifyWebhookEnv", () => {
   expect(WatcherSpec.parse(VALID).deliver).toBe("issue");
   // notify without the webhook env name refuses…
   expect(() => WatcherSpec.parse({ ...VALID, deliver: "notify" })).toThrow(/notifyWebhookEnv/);
@@ -69,6 +69,18 @@ test("deliver defaults to 'issue'; 'notify' requires notifyWebhookEnv", () => {
   });
   expect(notify.deliver).toBe("notify");
   expect(notify.notifyWebhookEnv).toBe("SLACK_OPERATION_HIRED_WEBHOOK_URL");
+});
+
+test("command notify requires a command env and defaults the Buzz topic", () => {
+  expect(() => WatcherSpec.parse({ ...VALID, deliver: "notify", notifyTransport: "command" })).toThrow(/notifyCommandEnv/);
+  const notify = WatcherSpec.parse({
+    ...VALID,
+    deliver: "notify",
+    notifyTransport: "command",
+    notifyCommandEnv: "BUZZ_NOTIFY_TRANSPORT",
+  });
+  expect(notify.notifyCommandEnv).toBe("BUZZ_NOTIFY_TRANSPORT");
+  expect(notify.notifyTopic).toBe("sys-automation");
 });
 
 test("loadWatcherSpec: missing file, invalid JSON, and schema violations all throw", () => {

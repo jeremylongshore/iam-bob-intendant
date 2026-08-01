@@ -1,6 +1,13 @@
 import { test, expect } from "bun:test";
 import type { WatchItem } from "./watcher-intendant.ts";
-import { buildNotifyPayload, buildNotifyText, NOTIFY_ACCENT, postNotification, type WebhookPoster } from "./notify.ts";
+import {
+  buildNotifyPayload,
+  buildNotifyText,
+  NOTIFY_ACCENT,
+  postCommandNotification,
+  postNotification,
+  type WebhookPoster,
+} from "./notify.ts";
 
 const items: WatchItem[] = [
   { key: "release:v1", title: "acme/sdk release v1", url: "https://x/v1" },
@@ -58,6 +65,19 @@ test("postNotification: an empty batch is a trivially successful delivery (no po
   };
   expect(await postNotification(spy, "https://hook", "sdk", "acme/sdk", [])).toBe(true);
   expect(called).toBe(0);
+});
+
+test("postCommandNotification: sends one plain Buzz batch and preserves the topic", async () => {
+  const calls: Array<{ command: string; text: string; topic: string }> = [];
+  const ok = (command: string, text: string, topic: string) => {
+    calls.push({ command, text, topic });
+    return Promise.resolve({ ok: true, status: 0 });
+  };
+  expect(await postCommandNotification(ok, "/bin/buzz-notify.sh", "sys-automation", "sdk", "acme/sdk", items)).toBe(true);
+  expect(calls).toHaveLength(1);
+  expect(calls[0]!.command).toBe("/bin/buzz-notify.sh");
+  expect(calls[0]!.topic).toBe("sys-automation");
+  expect(calls[0]!.text).toContain("2 new on `acme/sdk`");
 });
 
 test("the posted body carries only public item URLs — never the webhook URL", () => {
