@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.8] - 2026-08-01
+
+### Added
+
+- feat(notify): support repository-owned Buzz command transport (1609c7e)
+
 ## [0.0.7] - 2026-07-15
 
 ### Changed
