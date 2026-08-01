@@ -5,7 +5,7 @@
 // agent-governance-plane (AGP): it composes AGP as a pinned dependency and OWNS
 // the agent/composition layer — the trigger-woken GitHub watcher, its `watch`
 // operator loop, install, and the per-agent template test packs. The governance
-// itself (policy gate → Slack HITL → Docker sandbox → signed audit log of every
+// itself (policy gate → optional HITL channel → Docker sandbox → signed audit log of every
 // tool call) lives in AGP; this CLI dispatches init/keygen/doctor/verify to AGP
 // and drives the local watcher through AGP's daemon, so the "model proposes; the
 // deterministic system decides and records" boundary is exactly AGP's, unchanged.
@@ -30,9 +30,9 @@ Commands:
   init        Scaffold the config home (~/.agp): config + policy skeletons + signing dir
               --force   overwrite existing config/policy files
   keygen      Generate the Ed25519 journal-signing key (--force to replace)
-  doctor      Validate prerequisites (Docker, Slack, signing key, policy) — fail-closed
+  doctor      Validate prerequisites (Docker, signing key, policy) — fail-closed
   watch       Run a governed background agent on a trigger
-              run    --spec <path>   one tick: read (gated) → judge → act (issue: require+HITL | notify: webhook)
+              run    --spec <path>   one tick: read (gated) → judge → act (issue: require+HITL | notify: webhook/command)
               status --spec <path>   liveness dead-man's-switch + knowledge-chain verify (exit 1 = stale/broken)
               enable --spec <path>   human re-commit after a restart-intensity refusal
   judge       Run the governed-judgment loop over a seeded brain: retrieve (qmd://) →

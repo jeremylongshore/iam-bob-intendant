@@ -47,7 +47,14 @@ import { loadWatcherSpec, type WatcherSpec } from "../../triggers/github-watcher
 import { verifyStateLog, WatcherStateLog } from "../../triggers/github-watcher/state-log.ts";
 import { OneShotPollSource } from "../../triggers/github-watcher/one-shot-poll-source.ts";
 import { GithubWatcherIntendant } from "../../triggers/github-watcher/watcher-intendant.ts";
-import { fetchWebhookPoster, postNotification, type WebhookPoster } from "../../triggers/github-watcher/notify.ts";
+import {
+  execCommandPoster,
+  fetchWebhookPoster,
+  postCommandNotification,
+  postNotification,
+  type CommandPoster,
+  type WebhookPoster,
+} from "../../triggers/github-watcher/notify.ts";
 
 export interface WatchOptions {
   /** Path to the committed watcher spec (required for every subcommand). */
@@ -58,6 +65,8 @@ export interface WatchOptions {
 export interface WatchDeps {
   /** Notify-mode webhook poster (default: a real fetch POST). */
   poster?: WebhookPoster;
+  /** Command transport poster (default: a shell-free executable invocation). */
+  commandPoster?: CommandPoster;
   /**
    * Sandbox override (tests only). When set, replaces the env-selected sandbox
    * so a fixture can serve canned `gh` output — the ONLY way to exercise the
@@ -198,18 +207,29 @@ export async function watchCommand(
     return 3;
   }
 
-  // Notify-mode precondition (fail-fast, like the signing-key/policy checks): a
-  // `deliver: "notify"` spec needs its webhook URL present in the environment
-  // BEFORE we fire the trigger — an unset webhook is a config error, not a
-  // transient failure, so refuse rather than run and drop the notification.
+  // Notify-mode precondition (fail-fast, like the signing-key/policy checks):
+  // the selected transport must be present BEFORE we fire the trigger. A
+  // missing destination is a config error, not a transient failure, so refuse
+  // rather than run and drop the notification.
   let notifyWebhook: string | undefined;
+  let notifyCommand: string | undefined;
   if (spec.deliver === "notify") {
-    notifyWebhook = spec.notifyWebhookEnv ? env[spec.notifyWebhookEnv] : undefined;
-    if (!notifyWebhook) {
-      out(
-        `bob watch run: deliver:'notify' needs env '${spec.notifyWebhookEnv}' set to the Slack webhook URL — it is unset/empty. (fail-closed)`,
-      );
-      return 1;
+    if (spec.notifyTransport === "command") {
+      notifyCommand = spec.notifyCommandEnv ? env[spec.notifyCommandEnv] : undefined;
+      if (!notifyCommand) {
+        out(
+          `bob watch run: command notify needs env '${spec.notifyCommandEnv}' set to an executable path — it is unset/empty. (fail-closed)`,
+        );
+        return 1;
+      }
+    } else {
+      notifyWebhook = spec.notifyWebhookEnv ? env[spec.notifyWebhookEnv] : undefined;
+      if (!notifyWebhook) {
+        out(
+          `bob watch run: webhook notify needs env '${spec.notifyWebhookEnv}' set to a webhook URL — it is unset/empty. (fail-closed)`,
+        );
+        return 1;
+      }
     }
   }
 
@@ -380,9 +400,25 @@ export async function watchCommand(
     // to re-fire next run (never silently lost). A read-ok run with a failed post
     // stays ok:true (the agent isn't crash-looping; a transient Slack outage must
     // not trip the restart-intensity bound) but exits non-zero so cron sees it.
-    if (spec.deliver === "notify" && s.readOk && s.toNotify.length > 0 && notifyWebhook) {
-      const poster = deps.poster ?? fetchWebhookPoster;
-      notifyDelivered = await postNotification(poster, notifyWebhook, spec.id, spec.repo, s.toNotify);
+    if (
+      spec.deliver === "notify" &&
+      s.readOk &&
+      s.toNotify.length > 0 &&
+      (spec.notifyTransport === "command" ? notifyCommand : notifyWebhook)
+    ) {
+      if (spec.notifyTransport === "command") {
+        notifyDelivered = await postCommandNotification(
+          deps.commandPoster ?? execCommandPoster,
+          notifyCommand!,
+          spec.notifyTopic,
+          spec.id,
+          spec.repo,
+          s.toNotify,
+        );
+      } else {
+        const poster = deps.poster ?? fetchWebhookPoster;
+        notifyDelivered = await postNotification(poster, notifyWebhook!, spec.id, spec.repo, s.toNotify);
+      }
       if (notifyDelivered) {
         for (const item of s.toNotify) {
           state.append("observed", { key: item.key, outcome: "notified", correlationId: event.correlationId });
@@ -474,7 +510,8 @@ export async function watchCommand(
     if (notifyDelivered === false) {
       out(`read ok — ${s.newKeys.length} new, but the notification POST FAILED; items re-fire next run. (delivery degraded)`);
     } else {
-      out(`read ok — ${s.candidates} candidate(s), ${s.newKeys.length} new, ${notified.length} notified via ${spec.notifyWebhookEnv}.`);
+      const transport = spec.notifyTransport === "command" ? spec.notifyCommandEnv : spec.notifyWebhookEnv;
+      out(`read ok — ${s.candidates} candidate(s), ${s.newKeys.length} new, ${notified.length} notified via ${transport}.`);
     }
   } else if (s.readOk) {
     out(`read ok — ${s.candidates} candidate(s), ${s.newKeys.length} new, ${s.actioned.length} actioned, ${s.suppressed.length} suppressed.`);

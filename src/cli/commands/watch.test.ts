@@ -258,6 +258,31 @@ test("NOTIFY mode: a failed post does NOT record the items (they re-fire) and do
   rmSync(dir, { recursive: true, force: true });
 });
 
+test("NOTIFY command mode: posts one Buzz batch and records only after acceptance", async () => {
+  const { env, dir, specPath } = provisioned({
+    deliver: "notify",
+    notifyTransport: "command",
+    notifyCommandEnv: "BUZZ_NOTIFY_TRANSPORT",
+    notifyTopic: "sys-automation",
+    maxActionsPerRun: 5,
+  });
+  const sandbox = new CannedSandbox(RELEASES) as unknown as import("agp/src/contracts/sandbox-provider.ts").SandboxProvider;
+  const calls: Array<{ command: string; text: string; topic: string }> = [];
+  const commandPoster = (command: string, text: string, topic: string) => {
+    calls.push({ command, text, topic });
+    return Promise.resolve({ ok: true, status: 0 });
+  };
+  const lines: string[] = [];
+  const notifyEnv = { ...env, BUZZ_NOTIFY_TRANSPORT: "/home/jeremy/bin/buzz-notify.sh" };
+  expect(await watchCommand(["run", "--spec", specPath], notifyEnv, (l) => lines.push(l), { sandbox, commandPoster })).toBe(0);
+  expect(calls).toHaveLength(1);
+  expect(calls[0]!.command).toBe("/home/jeremy/bin/buzz-notify.sh");
+  expect(calls[0]!.topic).toBe("sys-automation");
+  expect(calls[0]!.text).toContain("2 new on `acme/sdk`");
+  expect(lines.join("\n")).toContain("2 notified via BUZZ_NOTIFY_TRANSPORT");
+  rmSync(dir, { recursive: true, force: true });
+});
+
 test("unknown subcommand and slack-without-live fail closed", async () => {
   const lines: string[] = [];
   expect(await watchCommand(["prowl"], home().env, (l) => lines.push(l))).toBe(1);

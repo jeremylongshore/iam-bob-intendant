@@ -62,20 +62,31 @@ export const WatcherSpec = z
      * What the agent DOES with a new item — a human-committed behavior choice:
      * - `issue`  (default): file a GitHub issue, gated by a `require` verdict +
      *   HITL approval (needs a two-way approval channel; the consequential mode).
-     * - `notify`: post ONE batched summary to a one-way notification webhook and
-     *   record the item as seen. No write to GitHub, so no `require`/HITL is
-     *   needed — the read is still governed, and notifying yourself is not a
-     *   consequential action. Safe to run unattended (no suppression trap). This
-     *   is the interim mode until a two-way Slack HITL channel is wired.
+     * - `notify`: post ONE batched summary through the declared notification
+     *   transport and record the item as seen. No write to GitHub, so no
+     *   `require`/HITL is needed — the read is still governed, and notifying
+     *   yourself is not a consequential action. Safe to run unattended.
      */
     deliver: z.enum(["issue", "notify"]).default("issue"),
+    /** Notify transport used when `deliver: "notify"`. */
+    notifyTransport: z.enum(["webhook", "command"]).default("webhook"),
     /**
-     * `notify` mode only: the ENV VAR NAME holding the Slack incoming-webhook URL
-     * (e.g. `SLACK_OPERATION_HIRED_WEBHOOK_URL`). The value stays in the
-     * environment — never in this spec, never in the journal (screened) — mirroring
-     * the `{{secret:NAME}}` discipline. Required when `deliver: "notify"`.
+     * Webhook mode only: ENV VAR NAME holding the incoming-webhook URL. The
+     * value stays in the environment — never in this spec or journal.
      */
     notifyWebhookEnv: z.string().min(1).nullable().default(null),
+    /**
+     * Command mode only: ENV VAR NAME holding an absolute executable path. The
+     * command receives the rendered text as argv[1] and the topic as
+     * `BUZZ_NOTIFY_TOPIC`; no shell is involved.
+     */
+    notifyCommandEnv: z
+      .string()
+      .regex(/^[A-Za-z_][A-Za-z0-9_]*$/, "must be a valid environment variable name")
+      .nullable()
+      .default(null),
+    /** Buzz/system topic used by command transports. */
+    notifyTopic: z.string().regex(/^[a-z0-9][a-z0-9-]*$/, "must be a lowercase topic").default("sys-automation"),
     /**
      * Where the consequential action files issues (issue mode). MUST be a repo the
      * operator owns (GC red line, 030-AT-DECR: never file issues on unowned repos)
@@ -137,11 +148,18 @@ export const WatcherSpec = z
         message: "watch: 'commits' requires a branch",
       });
     }
-    if (s.deliver === "notify" && s.notifyWebhookEnv === null) {
+    if (s.deliver === "notify" && s.notifyTransport === "webhook" && s.notifyWebhookEnv === null) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         path: ["notifyWebhookEnv"],
         message: "deliver: 'notify' requires notifyWebhookEnv (the env var name holding the webhook URL)",
+      });
+    }
+    if (s.deliver === "notify" && s.notifyTransport === "command" && s.notifyCommandEnv === null) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["notifyCommandEnv"],
+        message: "command notify requires notifyCommandEnv (the env var name holding the executable path)",
       });
     }
   });
