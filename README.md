@@ -16,6 +16,8 @@
 
 ---
 
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/U5S225PTME)
+
 ## Bob the Intendant — governed judgment for the agent you already run
 
 > **Public v0 — built in public.** The Public-Flip Gate closed (intent-eval-lab
