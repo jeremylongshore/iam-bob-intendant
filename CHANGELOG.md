@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.9] - 2026-08-25
+
+### Changed
+
+- chore(funding): add Ko-fi alongside the existing funding sources (ee272b3)
+- docs(readme): add the Ko-fi support badge (3734a6f)
+
 ## [0.0.8] - 2026-08-01
 
 ### Added
