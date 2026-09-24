@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.12] - 2026-09-24
+
+### Fixed
+
+- fix(release): re-pin package.json in .harness-hash on every version bump (#17) (b85d849)
+
 ## [0.0.11] - 2026-09-24
 
 ### Changed
