@@ -3,3 +3,6 @@ node_modules/
 .DS_Store
 /dist/
 /.agp/
+
+# audit-harness generated reports (CRAP / architecture); regenerated on every run
+reports/
