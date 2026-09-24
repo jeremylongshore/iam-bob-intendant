@@ -188,6 +188,15 @@ jobs:
             jq --arg v "$VERSION_NUM" '.version = $v' package.json > "$tmp" && mv "$tmp" package.json
             git add package.json
             echo "Updated package.json to $VERSION_NUM"
+            # audit-harness >=1.4.0 hash-pins package.json. The version bump is
+            # the only change this step makes to it, so re-pin exactly that one
+            # line; re-running a full `init` here would launder any other drift.
+            if [ -f ".harness-hash" ] && grep -qE '^[0-9a-f]{64}  package\.json$' .harness-hash; then
+              newh=$(sha256sum package.json | awk '{print $1}')
+              sed -i -E "s|^[0-9a-f]{64}  package\.json$|${newh}  package.json|" .harness-hash
+              git add .harness-hash
+              echo "Re-pinned package.json in .harness-hash"
+            fi
           fi
 
           # package-lock.json
