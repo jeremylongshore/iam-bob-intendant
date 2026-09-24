@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.11] - 2026-09-24
+
+### Changed
+
+- chore(deps): bump DavidAnson/markdownlint-cli2-action from 24 to 24.1.0 (#15) (efd4282)
+
 ## [0.0.10] - 2026-09-24
 
 ### Changed
