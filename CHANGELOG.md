@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.0.13] - 2026-10-14
+
+### Changed
+
+- docs: display official Intent Solutions Select partner badge (#19) (0d23060)
+
 ## [0.0.12] - 2026-09-24
 
 ### Fixed
